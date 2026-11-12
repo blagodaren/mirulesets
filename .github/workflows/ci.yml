@@ -17,16 +17,19 @@ jobs:
       - run: go vet ./...
       - run: node --check web/app.js && node --check web/theme.js && node --test web/theme_test.cjs
       - name: Build static Linux executable
-        run: CGO_ENABLED=0 go build -trimpath -o /tmp/mirulesets ./cmd/mirulesets
+        run: |
+          CGO_ENABLED=0 go build -trimpath -o /tmp/mirulesets ./cmd/mirulesets
+          version="$(/tmp/mirulesets version)"
+          printf 'MIRULESETS_VERSION=%s\n' "${version#MIRulesets }" >> "$GITHUB_ENV"
       - name: Build container
-        run: docker build --build-arg VERSION=0.1.1-alpha -t mirulesets:ci .
+        run: docker build --build-arg VERSION="$MIRULESETS_VERSION" -t mirulesets:ci .
       - name: Start container and check health
         run: |
           docker run -d --name mirulesets-check -e MI_ADMIN_PASSWORD=ci-check-password --read-only --tmpfs /tmp:size=64m,mode=1777 --cap-drop ALL --security-opt no-new-privileges:true -v mirulesets-ci-data:/data -p 127.0.0.1:8080:8080 mirulesets:ci
           trap 'docker logs mirulesets-check; docker rm -f mirulesets-check; docker volume rm mirulesets-ci-data' EXIT
           for attempt in {1..30}; do
             if curl --fail --silent http://127.0.0.1:8080/healthz; then
-              test "$(docker run --rm mirulesets:ci version)" = "MIRulesets 0.1.1-alpha"
+              test "$(docker run --rm mirulesets:ci version)" = "MIRulesets $MIRULESETS_VERSION"
               exit 0
             fi
             sleep 1

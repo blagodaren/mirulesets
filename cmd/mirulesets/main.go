@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
 
@@ -55,6 +56,11 @@ func runContext(ctx context.Context) error {
 	handler, err := server.New(svc)
 	if err != nil {
 		return err
+	}
+	if c.TLSMode == "off" && strings.HasPrefix(strings.ToLower(c.PublicURL), "https://") && len(c.TrustedProxies) == 0 {
+		const message = "MI_TRUSTED_PROXIES пуст при внешнем HTTPS: пользователи за одним прокси видны с одним IP; неудачные попытки одного пользователя могут заблокировать вход всем. Укажите в MI_TRUSTED_PROXIES только CIDR доверенных прокси (точный IP с /32 или /128)"
+		slog.Warn(message)
+		svc.Event("warning", message, "")
 	}
 	ctx, stop := context.WithCancel(ctx)
 	defer stop()
