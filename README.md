@@ -15,7 +15,7 @@
 MIRulesets объединяет источники и собственные правила, проверяет результат и публикует готовые файлы по постоянным ссылкам. Сервер, веб-панель и конвертер работают в одном контейнере.
 
 > [!NOTE]
-> **0.1.1-alpha — предварительная версия.** [Состав выпуска и ограничения](docs/releases/0.1.1-alpha.md). Перед обновлением сохраняйте весь каталог данных; экспорт настроек из панели не заменяет резервную копию.
+> **0.1.2-alpha — предварительная версия.** [Состав выпуска и ограничения](docs/releases/0.1.2-alpha.md). Перед обновлением сохраняйте весь каталог данных; экспорт настроек из панели не заменяет резервную копию.
 
 ## Возможности
 
@@ -29,14 +29,14 @@ MIRulesets объединяет источники и собственные п�
 
 ## Установка на сервер
 
-Нужен Linux-сервер с Docker. Готовый образ `ghcr.io/blagodaren/mirulesets:0.1.1-alpha` поддерживает amd64 и arm64; собирать приложение на сервере не требуется.
+Нужен Linux-сервер с Docker. Готовый образ `ghcr.io/blagodaren/mirulesets:0.1.2-alpha` поддерживает amd64 и arm64; собирать приложение на сервере не требуется.
 
 **1. Подготовьте каталог настроек.**
 
 ```sh
 mkdir mirulesets
 cd mirulesets
-curl -fsSLo .env https://raw.githubusercontent.com/blagodaren/mirulesets/v0.1.1-alpha/.env.example
+curl -fsSLo .env https://raw.githubusercontent.com/blagodaren/mirulesets/v0.1.2-alpha/.env.example
 chmod 600 .env
 ```
 
@@ -56,7 +56,7 @@ docker run -d --name mirulesets --restart unless-stopped \
   --env-file .env --read-only --tmpfs /tmp:size=64m,mode=1777 \
   --cap-drop ALL --security-opt no-new-privileges:true --stop-timeout 30 \
   -p 127.0.0.1:8080:8080 -v mirulesets-data:/data \
-  ghcr.io/blagodaren/mirulesets:0.1.1-alpha
+  ghcr.io/blagodaren/mirulesets:0.1.2-alpha
 ```
 
 Данные сохраняются в томе `mirulesets-data`; контейнер работает от UID/GID `10001:10001`. Порт доступен только на сервере. Для первого входа откройте SSH-туннель со своего компьютера:
@@ -88,7 +88,7 @@ ssh -L 8080:127.0.0.1:8080 user@your-vps
 | [Развёртывание](docs/deployment.md) | Docker Compose, HTTPS, S3, systemd, обновления и хранение данных |
 | [Наблюдение](docs/observability.md) · [Параметры](.env.example) | Журнал, webhook, Prometheus и настройки сервера |
 | [Разработка и CLI](docs/development.md) · [UI Kit](UI_KIT.md) | Сборка из исходников, конвертер, проверки и правила интерфейса |
-| [Выпуск 0.1.1-alpha](docs/releases/0.1.1-alpha.md) | Состав выпуска и известные ограничения |
+| [Выпуск 0.1.2-alpha](docs/releases/0.1.2-alpha.md) | Состав выпуска и известные ограничения |
 
 ## Лицензия
 

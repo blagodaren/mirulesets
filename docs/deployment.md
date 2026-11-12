@@ -326,9 +326,9 @@ scrape_configs:
 
 ## Версия сборки
 
-CLI `mirulesets version` и `/api/system` используют одну переменную `internal/version.Version`. Версия исходников по умолчанию — `0.1.1-alpha`; для релиза задайте её при сборке:
+CLI `mirulesets version` и `/api/system` используют одну переменную `internal/version.Version`. Версия исходников по умолчанию — `0.1.2-alpha`; для релиза задайте её при сборке:
 
 ```sh
-go build -ldflags "-X github.com/blagodaren/mirulesets/internal/version.Version=0.1.1-alpha" ./cmd/mirulesets
-docker build --build-arg VERSION=0.1.1-alpha -t mirulesets:0.1.1-alpha .
+go build -ldflags "-X github.com/blagodaren/mirulesets/internal/version.Version=0.1.2-alpha" ./cmd/mirulesets
+docker build --build-arg VERSION=0.1.2-alpha -t mirulesets:0.1.2-alpha .
 ```
