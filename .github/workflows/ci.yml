@@ -1,0 +1,34 @@
+name: Go checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.3'
+          cache: true
+      - run: go test -race ./...
+      - run: go vet ./...
+      - run: node --check web/app.js && node --check web/theme.js && node --test web/theme_test.cjs
+      - name: Build static Linux executable
+        run: CGO_ENABLED=0 go build -trimpath -o /tmp/mirulesets ./cmd/mirulesets
+      - name: Build container
+        run: docker build --build-arg VERSION=0.1.0-alpha -t mirulesets:ci .
+      - name: Start container and check health
+        run: |
+          docker run -d --name mirulesets-check -e MI_ADMIN_PASSWORD=ci-check-password -p 127.0.0.1:8080:8080 mirulesets:ci
+          trap 'docker logs mirulesets-check; docker rm -f mirulesets-check' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8080/healthz; then
+              test "$(docker run --rm mirulesets:ci version)" = "MIRulesets 0.1.0-alpha"
+              exit 0
+            fi
+            sleep 1
+          done
+          exit 1

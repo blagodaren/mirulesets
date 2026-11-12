@@ -1,0 +1,32 @@
+[Unit]
+Description=MIRulesets rule provider manager
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=mirulesets
+Group=mirulesets
+EnvironmentFile=/etc/mirulesets.env
+Environment=MI_DATA_DIR=/var/lib/mirulesets
+Environment=MI_ADDR=127.0.0.1:8080
+ExecStart=/usr/local/bin/mirulesets
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+StateDirectory=mirulesets
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target

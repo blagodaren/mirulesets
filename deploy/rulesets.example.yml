@@ -1,0 +1,16 @@
+# Set MI_RULESETS_FILE to this file's absolute path on the server.
+# Startup atomically merges these sets; omitted sets are not deleted.
+version: 1
+rulesets:
+  - id: example-domains
+    name: Example domains
+    behavior: domain
+    policy: PROXY
+    enabled: true
+    intervalSeconds: 3600
+    maxDropPercent: 50
+    tags: [example]
+    formats: [yaml, text, mrs, singbox, srs]
+    sources: []
+    customRules: ['+.example.com']
+    excludeRules: []

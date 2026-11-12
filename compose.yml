@@ -1,0 +1,26 @@
+name: mirulesets
+services:
+  mirulesets:
+    image: mirulesets:local
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MI_ADMIN_PASSWORD: ${MI_ADMIN_PASSWORD:?Set MI_ADMIN_PASSWORD in .env (at least 12 characters)}
+      MI_ADDR: :8080
+      MI_DATA_DIR: /data
+      MI_TLS_MODE: "off"
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - mirulesets-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+volumes:
+  mirulesets-data:

@@ -1,0 +1,13 @@
+# Docker Compose >= 2.24.4. Run with -f compose.yml -f compose.acme.yml.
+services:
+  mirulesets:
+    environment:
+      MI_TLS_MODE: auto
+      MI_DOMAIN: ${MI_DOMAIN:?Set MI_DOMAIN to the DNS name pointing to this VPS}
+      MI_ACME_EMAIL: ${MI_ACME_EMAIL:?Set MI_ACME_EMAIL}
+      MI_PUBLIC_URL: https://${MI_DOMAIN}
+      MI_HTTP_ADDR: :8080
+      MI_TLS_ADDR: :8443
+    ports: !override
+      - "80:8080"
+      - "443:8443"

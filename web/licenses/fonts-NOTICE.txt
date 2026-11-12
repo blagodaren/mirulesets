@@ -1,0 +1,11 @@
+Geist and Geist Mono
+Copyright 2024 The Geist Project Authors
+https://github.com/vercel/geist-font
+
+Font files are distributed under the SIL Open Font License, Version 1.1.
+See geist-LICENSE.txt and geist-mono-LICENSE.txt in this directory.
+
+The Latin and Cyrillic WOFF2 subsets were obtained from MIBoard:
+https://github.com/blagodaren/miboard/tree/main/src/assets/fonts
+
+The files are included without modification and served locally by MIRulesets.

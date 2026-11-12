@@ -1,0 +1,23 @@
+.git
+.env
+.env.*
+!.env.example
+.tools
+.dev-data
+.test-data
+.tmp
+data
+dist
+bin
+tmp
+artifacts
+Claude outputs
+docs/fixes-2026-11-12.md
+node_modules
+*.exe
+*.test
+*.log
+*.pem
+*.key
+coverage*
+**/*_test.go

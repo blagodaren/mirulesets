@@ -1,0 +1,8 @@
+# Caddy running on the VPS host. Replace the domain and email.
+{
+    email admin@example.com
+}
+
+rules.example.com {
+    reverse_proxy 127.0.0.1:8080
+}

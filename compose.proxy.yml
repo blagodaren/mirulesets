@@ -1,0 +1,10 @@
+# For an existing containerized proxy on the external Docker network "proxy".
+# Run with -f compose.yml -f compose.proxy.yml. No host port is published.
+services:
+  mirulesets:
+    ports: !reset []
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
