@@ -22,8 +22,8 @@ jobs:
         run: docker build --build-arg VERSION=0.1.0-alpha -t mirulesets:ci .
       - name: Start container and check health
         run: |
-          docker run -d --name mirulesets-check -e MI_ADMIN_PASSWORD=ci-check-password -p 127.0.0.1:8080:8080 mirulesets:ci
-          trap 'docker logs mirulesets-check; docker rm -f mirulesets-check' EXIT
+          docker run -d --name mirulesets-check -e MI_ADMIN_PASSWORD=ci-check-password --read-only --tmpfs /tmp:size=64m,mode=1777 --cap-drop ALL --security-opt no-new-privileges:true -v mirulesets-ci-data:/data -p 127.0.0.1:8080:8080 mirulesets:ci
+          trap 'docker logs mirulesets-check; docker rm -f mirulesets-check; docker volume rm mirulesets-ci-data' EXIT
           for attempt in {1..30}; do
             if curl --fail --silent http://127.0.0.1:8080/healthz; then
               test "$(docker run --rm mirulesets:ci version)" = "MIRulesets 0.1.0-alpha"
