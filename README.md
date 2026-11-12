@@ -89,3 +89,7 @@ ssh -L 8080:127.0.0.1:8080 user@your-vps
 | [Наблюдение](docs/observability.md) · [Параметры](.env.example) | Журнал, webhook, Prometheus и настройки сервера |
 | [Разработка и CLI](docs/development.md) · [UI Kit](UI_KIT.md) | Сборка из исходников, конвертер, проверки и правила интерфейса |
 | [Выпуск 0.1.0-alpha](docs/releases/0.1.0-alpha.md) | Состав выпуска и известные ограничения |
+
+## Лицензия
+
+Код проекта распространяется по [MIT](LICENSE). Уведомление MIBoard и лицензии шрифтов находятся в [web/licenses](web/licenses).

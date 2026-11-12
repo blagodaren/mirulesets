@@ -5,7 +5,6 @@
 /.tmp/
 /bin/
 /dist/
-/Claude outputs/
 /docs/fixes-2026-11-12.md
 /.env
 *.exe

@@ -1,4 +1,4 @@
-// Package version holds the single application version for CLI and HTTP API.
+// Package version holds the application version for CLI, HTTP API and source requests.
 package version
 
 // Version can be supplied at build time with -ldflags -X.

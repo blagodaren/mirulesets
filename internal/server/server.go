@@ -1,7 +1,9 @@
 package server
 
 import (
+	"bytes"
 	"crypto/rand"
+	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/base64"
 	"encoding/json"
@@ -100,10 +102,8 @@ func New(svc *service.Service) (http.Handler, error) {
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		}
 		w.Header().Set("Cache-Control", "no-cache")
-		if r.Method == "HEAD" {
-			return
-		}
-		_, _ = w.Write(b)
+		w.Header().Set("ETag", fmt.Sprintf(`"%x"`, sha256.Sum256(b)))
+		http.ServeContent(w, r, name, time.Time{}, bytes.NewReader(b))
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")

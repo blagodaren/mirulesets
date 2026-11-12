@@ -11,7 +11,7 @@ dist
 bin
 tmp
 artifacts
-Claude outputs
+* outputs
 docs/fixes-2026-11-12.md
 node_modules
 *.exe

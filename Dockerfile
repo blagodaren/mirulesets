@@ -12,6 +12,7 @@ RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache
     CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags="-s -w ${VERSION:+-X github.com/blagodaren/mirulesets/internal/version.Version=$VERSION}" -o /out/mirulesets ./cmd/mirulesets
 
 FROM scratch
+COPY LICENSE /LICENSE
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /out/mirulesets /mirulesets
 COPY --from=build --chown=10001:10001 /empty-data /data

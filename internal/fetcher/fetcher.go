@@ -16,6 +16,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/blagodaren/mirulesets/internal/version"
 )
 
 const MaxBytes = 32 << 20
@@ -202,7 +204,7 @@ func (f *Fetcher) GetWithHeaders(ctx context.Context, raw string, headers map[st
 	if err != nil {
 		return result, fmt.Errorf("некорректный запрос источника")
 	}
-	req.Header.Set("User-Agent", "MIRulesets/0.1 (+https://github.com/blagodaren/mirulesets)")
+	req.Header.Set("User-Agent", "MIRulesets/"+version.Version+" (+https://github.com/blagodaren/mirulesets)")
 	for name, value := range canonical {
 		req.Header.Set(name, value)
 	}
