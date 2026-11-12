@@ -2,4 +2,4 @@
 package version
 
 // Version can be supplied at build time with -ldflags -X.
-var Version = "0.1.0-alpha"
+var Version = "0.1.1-alpha"
